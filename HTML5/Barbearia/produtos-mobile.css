@@ -1,0 +1,11 @@
+@media screen and (max-width: 480px){
+    .caixa, .principal, .conteudo-beneficios , .mapa-conteudo, .video,.produtos,header {
+        width: auto;
+    }
+    .logo-principal{
+        text-align: center;
+    }
+    nav{
+        position: static;
+    }
+}
