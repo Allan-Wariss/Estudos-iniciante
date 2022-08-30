@@ -1,0 +1,207 @@
+/*popup endereço*/
+.mapa-popup {
+    width: 300px;
+    position: absolute;
+    top: 20px;
+    justify-content: center;
+    right: 45.5%;
+    transition: 0.3s ease;
+}
+.mapa-popup-fechada{
+    display: hidden;
+    width: 0px;
+    height: 0px;
+    transform: scale(0);
+    transition: width 0.3s;
+}
+.mapa-popup-fechada div{
+    width: 0px;
+    font-size: 0px;
+
+}
+.mapa-popup-aberta {
+    display: block;
+    position: fixed;
+    width: 500px;
+    height: 400px;
+    transform: scale(1.1);
+}
+.mapa-popup-aberta div{
+    width: 70px;
+    font-size: 18px;
+
+}
+.mapa-popup-aberta iframe{
+    box-shadow: var(--shadow);
+}
+
+.fechar-mapa-popup{
+    display: flex;
+    position: sticky;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    width: 70px;
+    height: 40px;
+    background-color: red;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.fechar-mapa-popup:hover{
+    background-color: lightcoral;
+}
+
+/*contato-popup*/
+.contato-popup{
+    display: hidden;
+    font-weight: bold;
+    color: white;
+    height:500px;
+    margin-left: 12%;
+}
+
+.contato-popup-fechado{
+    display: none;
+}
+.contato-popup-aberto {
+    width: 75%;
+    height: 500px;
+    display: block;
+    justify-content: center;
+    position: fixed;
+    color: white;
+    left: 10%;
+    top: 90px;
+    background: rgba(81, 81, 81, 0.7);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur( 15px );
+    border-radius: 10px;
+    border-top-left-radius: 0;
+}
+:required{
+    transition: 0.3s;
+}
+.fechar-contato-popup{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    top: -40px;
+    color: white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    width: 70px;
+    height: 40px;
+    background-color: red;
+    cursor: pointer;
+    transition: 0.3s;
+    
+}
+.fechar-contato-popup:hover{
+    background-color: lightcoral;
+}
+.tel{
+    display: inline-block;
+    width:50%;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+.contato-popup-aberto label{
+    display: inline-block;
+    width:50%;
+    height: 30px;
+    margin-top: 40px;
+    margin-left: 25%;
+}
+.contato-popup-aberto input,.enviar-contato{
+    display: inline-block;
+    position: relative;
+    width:40%;
+    height: 30px;
+    padding-left: 5px;
+    margin-top: 10px;
+    margin-left: 25%;
+}
+.contato-popup-aberto textarea{
+    display: inline-block;
+    position: relative;
+    width:40%;
+    height: 50px;
+    padding-left: 5px;
+    margin-top: 10px;
+    margin-left: 25%;
+}
+.enviar-contato{
+    margin-left: 25.5%;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: var(--yellow);
+    transition: 0.1s;
+}
+.enviar-contato:hover{
+    background-color: rgb(255, 255, 142);
+    transform: scale(1.1);
+}
+.enviar-contato:active{
+    transform: scale(0.9);
+    background-color: orange;
+}
+
+/*equipe-popup*/
+.equipe-popup-fechado{
+    display: none;
+}
+.equipe-popup-aberto{
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    position: fixed;
+    color: white;
+    bottom: 0;
+    background: rgba(165, 42, 42, 0.7);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur( 15px );
+    border-top-left-radius: 0;
+}
+.equipe-popup-conteudo{
+    padding-right: 5px;
+    display: flex;
+    word-break: break-all;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.foto-equipe{
+    margin-top: 20px;
+    margin-bottom: 100px;
+    border-radius: 360px;
+    width: 20%;
+    height: 40%;
+}
+.fechar-equipe-popup{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    top: -40px;
+    color: white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    width: 70px;
+    height: 40px;
+    background-color: red;
+    cursor: pointer;
+    transition: 0.3s;
+    
+}
+.fechar-equipe-popup:hover{
+    background-color: lightcoral;
+}
