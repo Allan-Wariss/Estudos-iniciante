@@ -48,6 +48,9 @@
         font-size: 12px;
 
     }
+    .iten-footer{
+        font-size: 8px;
+    }
 }
 @media screen and (max-width:370px){
     .logo-caixa img {
