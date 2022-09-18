@@ -3,12 +3,25 @@ import time
 import random
 import math
 
+
 tela = turtle.Screen()                   # Faz a tela do jogo
 tela.title("Vrum Vrum THE GAME")         # Titulo da janela
 tela.setup(1000, 750)                    # Resolução da tela em px
 tela.bgcolor("black")                    # background para analisar o erro do fundo animado
 tela.addshape("background-grande.gif")   # fundo animado
-tela.addshape("sprite-mario-1.gif")      # Sprite jogador
+tela.addshape("sprite-mario-1.gif")      # Sprites jogador
+tela.addshape("sprite-mario-2.gif")      #-
+tela.addshape("sprite-mario-3.gif")      #-
+tela.addshape("sprite-mario-4.gif")      #-
+tela.addshape("sprite-mario-5.gif")      #-
+tela.addshape("sprite-mario-6.gif")      #-
+tela.addshape("sprite-mario-7.gif")      #-
+tela.addshape("sprite-mario-8.gif")      #-
+tela.addshape("sprite-mario-9.gif")      #-
+tela.addshape("sprite-mario-10.gif")     #-
+tela.addshape("sprite-mario-11.gif")     #-
+tela.addshape("sprite-mario-12.gif")     #-
+tela.addshape("sprite-mario-13.gif")     #-
 tela.addshape("sprite-bowser-1.gif")     # Sprite inimigo 1
 tela.addshape("sprite-luigi-1.gif")      # Sprite inimigo 2
 tela.addshape("cogumelo.gif")            # Sprite cogumelo
@@ -72,7 +85,7 @@ jogador.sety(inicio_jogador)
 
 #Variaveis de random
 xg = random.randint(-230, 230)            # Aleatoriedade do X cogumelo
-yg = random.randint(2000,2400)            # Aleatoriedade do Y cogumelo
+yg = random.randint(1800,2000)            # Aleatoriedade do Y cogumelo
 x1 = random.randint(-230, 200)            # Aleatoriedade do X inimigo 1
 x2 = random.randint(-100, 210)            # Aleatoriedade do X inimigo 2
 y1 = random.randint(700,1000)             # Aleatoriedade do Y inimigo 1
@@ -120,8 +133,38 @@ def start():                                # Quando a função for chamada dar�
     return veloFundo, andar
 
 def colisao():
-    global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y
-    combustivel_valor -= 50         # Colisão com inimigo perde 50 de combustivel
+    global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar
+    andar = 0                           # Jogador não ande durante a colisão
+    combustivel_valor -= 50             # Colisão com inimigo perde 50 de combustivel
+    #Animação da colisão
+    jogador.shape("sprite-mario-1.gif") # Sprite que mudará
+    time.sleep(0.01)                    # Tempo que de um sprite para o outro
+    jogador.shape("sprite-mario-2.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-3.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-4.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-5.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-6.gif")
+    time.sleep(0.1)
+    jogador.shape("sprite-mario-7.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-8.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-9.gif")
+    time.sleep(0.1)
+    jogador.shape("sprite-mario-10.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-11.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-12.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-13.gif")
+    time.sleep(0.01)
+    jogador.shape("sprite-mario-1.gif")
+    time.sleep(0.01)
     inicio_inimigo1X = random.randint(-230, 200)  #Sorteia de novo a posição
     inicio_inimigo1Y = random.randint(700,1000)   #Sorteia de novo a posição
     inicio_inimigo2X = random.randint(-100, 210)  #Sorteia de novo a posição
@@ -139,7 +182,7 @@ def colisao():
     inimigo2.setx(inicio_inimigo2X) # -
     inimigo1.speed(0)               # Speed 0 para sincronizar com a animação padrão
     inimigo2.speed(0)               # Speed 0 para sincronizar com a animação padrão
-    time.sleep(0.5)                 # Jogo congela 0.5s para ocorrer essa função
+    andar = 30                      # Jogador volta a andar
 
 # Funções jogador
 def direita():
@@ -157,7 +200,7 @@ def addGas():
     global combustivel_valor, inicio_coguX, inicio_coguY
     combustivel_valor = 300
     inicio_coguX = random.randint(-230, 230) # Quando colidir e adicionar o combustivel sorteia de novo o eixo X
-    inicio_coguY = random.randint(2000,2300) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
+    inicio_coguY = random.randint(2000,2200) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
     cogumelo.sety(inicio_coguY)  # Teleportes dos cogumelo quando houver colisão
     cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
@@ -222,24 +265,24 @@ while True:
     dgi1 = math.sqrt((cogumelo.xcor() - inimigo1.xcor()) ** 2 + (cogumelo.ycor() - inimigo1.ycor()) ** 2)# Colisao cogumelo com inimigo1,nao nascem juntos
     dgi2 = math.sqrt((cogumelo.xcor() - inimigo2.xcor()) ** 2 + (cogumelo.ycor() - inimigo2.ycor()) ** 2)# Colisao cogumelo com inimigo2,nao nascem juntos
 
-    distancia = 140 # O quanto cada objeto deve obedecer a esta distância
-    if di1 <= distancia:
+    distancia = 130           # O quanto cada objeto deve obedecer a esta distância
+    if di1 <= distancia:      # Colisão jogador e inimigo1
         colisao()
-    if di2 <= distancia:
+    if di2 <= distancia:      # Colisão jogador e inimigo2
         colisao()
-    if dg <= distancia:
+    if dg <= distancia:       # Colisão jogador e Cogumelo
         addGas()
-    if dii <= distancia:
+    if dii <= distancia + 20: # Colisão entre inimigos, evitar que nasçam em cima do outro
         inicio_inimigo2X = x2
         inicio_inimigo2Y = y2
         inimigo2.sety(inicio_inimigo1Y)
         inimigo2.setx(inicio_inimigo1X)
-    if dgi1 <= distancia:
+    if dgi1 <= distancia:    # Colisão entre cogumelo e inimigo1, evitar que nasçam em cima do outro
         inicio_coguX = xg
         inicio_coguY = yg
         cogumelo.sety(inicio_coguY)
         cogumelo.setx(inicio_coguX)
-    if dgi2 <= distancia:
+    if dgi2 <= distancia:    # Colisão entre cogumelo e inimigo2, evitar que nasçam em cima do outro
         inicio_coguX = xg
         inicio_coguY = yg
         cogumelo.sety(inicio_coguY)
@@ -264,7 +307,5 @@ while True:
         andar = 0
         veloInimigo = 0
         perdeu.write("Gasolina ACABOU ;-; ", False, align="center", font=('impact', 50, 'normal'))
-
-
 
 tela.mainloop()
