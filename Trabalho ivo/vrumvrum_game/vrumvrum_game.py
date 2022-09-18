@@ -37,6 +37,20 @@ combustivel.penup()
 combustivel.speed(0)                      # Velocidade = 0 para teleportar sem ser visto
 combustivel.setpos(400,350)               # Posição do Sprite
 
+#Mensagem de iniciar o jogo
+mensagem = turtle.Turtle()                # Mensagem para indicar o jogar que tecla apertar para iniciar
+mensagem.hideturtle()
+mensagem.color("white")
+mensagem.up()
+mensagem.write("APERTE ESPAÇO PARA INICIAR ", False,align="center", font=('impact', 50, 'normal'))
+
+# Mensagem de fim de jogo
+perdeu = turtle.Turtle()  # Mensagem para indicar fim de jogo
+perdeu.hideturtle()
+perdeu.color("red")
+perdeu.up()
+
+
 #Pontos
 pontos_valor = 0         # Valor inicial dos Pontos
 pontos = turtle.Turtle()
@@ -45,7 +59,6 @@ pontos.up()
 pontos.speed(0)
 pontos.setpos(-480,320)  # Pontos será mostrado no canto superior esquerdo
 pontos.color("white")    # Cor dos Pontos
-
 
 
 # Jogador
@@ -98,7 +111,8 @@ inimigo2.setx(inicio_inimigo2X)             # Inimigo2 aparece em lugar aleatori
 
 
 # Função Iniciar o jogo
-def start():                                #Quando a função for chamada dará as velocidades iniciando o jogo
+def start():                                # Quando a função for chamada dará as velocidades iniciando o jogo
+    mensagem.clear()                        # Quando o jogo iniciar a mensagem é apagada
     global veloFundo, andar, veloInimigo
     veloFundo = 80
     veloInimigo = 20
@@ -153,7 +167,6 @@ def addGas():
 tela.onkey(direita, "Right")
 tela.onkey(esquerda, "Left")
 tela.onkey(start, "space")
-tela.onkey(addGas, "f")
 tela.listen()
 
 #loop do jogo
@@ -176,7 +189,6 @@ while True:
             time.sleep(0.01)
             combustivel_valor -= 30
 
-
     #Movimento inimigo1
     inimigo1.goto(inicio_inimigo1X, inimigo1.ycor() - veloInimigo) # Regra de movimento
     if inimigo1.ycor() < comeco:                                   # Se sair do limite da tela volta para cima com um novo valor de X
@@ -184,7 +196,6 @@ while True:
         inimigo1.speed(0)
         inimigo1.sety(inicio_inimigo1Y)
         inimigo1.setx(inicio_inimigo1X)
-
 
     # Movimento inimigo2
     inimigo2.goto(inicio_inimigo2X, inimigo2.ycor() - veloInimigo)  # Regra de movimento
@@ -211,7 +222,7 @@ while True:
     dgi1 = math.sqrt((cogumelo.xcor() - inimigo1.xcor()) ** 2 + (cogumelo.ycor() - inimigo1.ycor()) ** 2)# Colisao cogumelo com inimigo1,nao nascem juntos
     dgi2 = math.sqrt((cogumelo.xcor() - inimigo2.xcor()) ** 2 + (cogumelo.ycor() - inimigo2.ycor()) ** 2)# Colisao cogumelo com inimigo2,nao nascem juntos
 
-    distancia = 130 # O quanto cada objeto deve obedecer a esta distância
+    distancia = 140 # O quanto cada objeto deve obedecer a esta distância
     if di1 <= distancia:
         colisao()
     if di2 <= distancia:
@@ -228,7 +239,7 @@ while True:
         inicio_coguY = yg
         cogumelo.sety(inicio_coguY)
         cogumelo.setx(inicio_coguX)
-    if dgi2 <= 80:
+    if dgi2 <= distancia:
         inicio_coguX = xg
         inicio_coguY = yg
         cogumelo.sety(inicio_coguY)
@@ -252,7 +263,7 @@ while True:
         veloFundo = 0
         andar = 0
         veloInimigo = 0
-        #Velocidade Gasolina = 0
+        perdeu.write("Gasolina ACABOU ;-; ", False, align="center", font=('impact', 50, 'normal'))
 
 
 
