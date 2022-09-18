@@ -37,7 +37,15 @@ combustivel.speed(0)                      # Velocidade = 0 para teleportar sem s
 combustivel.setpos(400,350)               # Posição do Sprite
 
 #Pontos
-pontos_valor = 0
+pontos_valor = 0         # Valor inicial dos Pontos
+pontos = turtle.Turtle()
+pontos.hideturtle()      # Esconde o shape do Turtle# Desenha o valor de pontos na tela
+pontos.up()
+pontos.speed(0)
+pontos.setpos(-480,320)  # Pontos será mostrado no canto superior esquerdo
+pontos.color("white")    # Cor dos Pontos
+
+
 
 # Jogador
 inicio_jogador = -270                    # Posição do Sprite
@@ -46,6 +54,7 @@ jogador.shape("sprite-mario-1.gif")
 jogador.speed(0)                         # Velocidade = 0 para teleportar sem ser visto
 jogador.penup()
 jogador.sety(inicio_jogador)
+
 
 #Variaveis de random
 x1 = random.randint(-230, 100)            # Aleatoriedade do X inimigo 1
@@ -58,24 +67,24 @@ inicio_inimigo1X = x1                     # Inimigo coordenada gerada em lugar a
 inimigo1 = turtle.Turtle()
 inimigo1.shape("sprite-bowser-1.gif")
 inimigo1.penup()
-inimigo1.speed(0)                            # Velocidade = 0 para teleportar sem ser visto
-inimigo1.sety(inicio_inimigo1Y)              # Inimigo aparece fora da tela
-inimigo1.setx(inicio_inimigo1X)              # Inimigo aparece em lugar aleatorio no eixo X
+inimigo1.speed(0)                          # Velocidade = 0 para teleportar sem ser visto
+inimigo1.sety(inicio_inimigo1Y)            # Inimigo aparece fora da tela
+inimigo1.setx(inicio_inimigo1X)            # Inimigo aparece em lugar aleatorio no eixo X
 
 
 # Inimigo2
-inicio_inimigo2Y = y2                        # Inimigo2 coordenada fora da tela
-inicio_inimigo2X = x2                        # Inimigo 2coordenada gerada em lugar aleatorio no eixo X
+inicio_inimigo2Y = y2                       # Inimigo2 coordenada fora da tela
+inicio_inimigo2X = x2                       # Inimigo 2coordenada gerada em lugar aleatorio no eixo X
 inimigo2 = turtle.Turtle()
 inimigo2.shape("sprite-luigi-1.gif")
 inimigo2.penup()
-inimigo2.speed(0)                            # Velocidade = 0 para teleportar sem ser visto
-inimigo2.sety(inicio_inimigo2Y)              # Inimigo2 aparece fora da tela
-inimigo2.setx(inicio_inimigo2X)              # Inimigo2 aparece em lugar aleatorio no eixo X
+inimigo2.speed(0)                           # Velocidade = 0 para teleportar sem ser visto
+inimigo2.sety(inicio_inimigo2Y)             # Inimigo2 aparece fora da tela
+inimigo2.setx(inicio_inimigo2X)             # Inimigo2 aparece em lugar aleatorio no eixo X
 
 
 # Função Iniciar o jogo
-def start():                  #Quando a função for chamada dará as velocidades iniciando o jogo
+def start():                                #Quando a função for chamada dará as velocidades iniciando o jogo
     global veloFundo, andar, veloInimigo
     veloFundo = 80
     veloInimigo = 20
@@ -128,10 +137,13 @@ while True:
     # Loop do fundo infinito em movimento e suas regras
     fundo.goto(0, fundo.ycor() - veloFundo)
     if fundo.ycor() < comeco:
-        combustivel_valor -= 10         # Conforme o fundo vai passando o combustivel diminue
-        pontos_valor += 20              # Conforme o fundo vai passando os Pontos Aumentam 20
+        combustivel_valor -= 10                 # Conforme o fundo vai passando o combustivel diminue
+        pontos_valor += 20                      # Conforme o fundo vai passando os Pontos Aumentam 20
         fundo.sety(-comeco)
-
+        print(f"Gasolina: {combustivel_valor}") # Print combustivel no console
+        print(f"Pontos: {pontos_valor}")        # Print pontos no console
+        pontos.clear()                          # Apaga desenho dos pontos anteriores, para não ficar sobreposto
+        pontos.write(f"Pontos: {pontos_valor} ", False, font=('Arial', 30, 'normal')) # Desenha os pontos na tela
 
         if jogador.xcor() < -259:       # Colidir na calçada da Esquerda perde Gasolina
             time.sleep(0.01)
@@ -139,8 +151,7 @@ while True:
         if jogador.xcor() > 239:        # Colidir na calçada da Direita perde Gasolina
             time.sleep(0.01)
             combustivel_valor -= 30
-        print(f"Gasolina: {combustivel_valor}")
-        print(f"Pontos: {pontos_valor}")
+
 
     #Movimento inimigo1
     inimigo1.goto(inicio_inimigo1X, inimigo1.ycor() - veloInimigo) # Regra de movimento
@@ -163,7 +174,7 @@ while True:
     #Colisão
     di1 = math.sqrt((jogador.xcor() - inimigo1.xcor())**2 + (jogador.ycor() - inimigo1.ycor())**2)       # Colisao com inimigo1
     di2 = math.sqrt((jogador.xcor() - inimigo2.xcor()) ** 2 + (jogador.ycor() - inimigo2.ycor()) ** 2)   # Colisao com inimigo2
-    dii = math.sqrt((inimigo2.xcor() - inimigo1.xcor()) ** 2 + (inimigo2.ycor() - inimigo1.ycor()) ** 2) # Colisao inimigo com inimigo, nao nascem juntos
+    dii = math.sqrt((inimigo2.xcor() - inimigo1.xcor()) ** 2 + (inimigo2.ycor() - inimigo1.ycor()) ** 2) # Colisao inimigo com inimigo,nao nascem juntos
     if di1 <= 95:
         colisao()
     if di2 <= 95:
@@ -177,7 +188,7 @@ while True:
     #Regra se o combustivel acabar
     if combustivel_valor < 1000 and combustivel_valor >=300 :      # Combustivel muda de sprite
         combustivel.shape("Combustivel-cheio.gif")
-        combustivel_valor = 290                                    # Quando entra na condição o jogo fica lento, isso resolve o problema, pois em seguida ele sai da condição
+        combustivel_valor = 290 # Quando entra na condição o jogo fica lento, isso resolve o problema, pois em seguida ele sai da condição
 
     if combustivel_valor <= 250 and combustivel_valor >= 220:      # Combustivel muda de sprite
         combustivel.shape("Combustivel-meio.gif")
