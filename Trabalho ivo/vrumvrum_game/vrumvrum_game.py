@@ -3,7 +3,6 @@ import time
 import random
 import math
 
-
 tela = turtle.Screen()                   # Faz a tela do jogo
 tela.title("Vrum Vrum THE GAME")         # Titulo da janela
 tela.setup(1000, 750)                    # Resolução da tela em px
@@ -73,16 +72,6 @@ pontos.speed(0)
 pontos.setpos(-480,320)  # Pontos será mostrado no canto superior esquerdo
 pontos.color("white")    # Cor dos Pontos
 
-
-# Jogador
-inicio_jogador = -270                    # Posição do Sprite
-jogador = turtle.Turtle()
-jogador.shape("sprite-mario-1.gif")
-jogador.speed(0)                         # Velocidade = 0 para teleportar sem ser visto
-jogador.penup()
-jogador.sety(inicio_jogador)
-
-
 #Variaveis de random
 xg = random.randint(-230, 230)            # Aleatoriedade do X cogumelo
 yg = random.randint(1800,2000)            # Aleatoriedade do Y cogumelo
@@ -95,33 +84,39 @@ y2 = random.randint(500,800)              # Aleatoriedade do Y inimigo 2
 inicio_coguY = yg                     # Cogumelo coordenada fora da tela
 inicio_coguX = xg                     # Cogumelo coordenada gerada em lugar aleatorio no eixo X
 cogumelo = turtle.Turtle()
-cogumelo.shape("cogumelo.gif")
 cogumelo.penup()
 cogumelo.speed(0)                          # Velocidade = 0 para teleportar sem ser visto
 cogumelo.sety(inicio_coguY)            # Cogumelo aparece fora da tela
 cogumelo.setx(inicio_coguX)            # Cogumelo aparece em lugar aleatorio no eixo X
+cogumelo.shape("cogumelo.gif")
 
 # Inimigo1
 inicio_inimigo1Y = y1                     # Inimigo coordenada fora da tela
 inicio_inimigo1X = x1                     # Inimigo coordenada gerada em lugar aleatorio no eixo X
 inimigo1 = turtle.Turtle()
-inimigo1.shape("sprite-bowser-1.gif")
 inimigo1.penup()
 inimigo1.speed(0)                          # Velocidade = 0 para teleportar sem ser visto
 inimigo1.sety(inicio_inimigo1Y)            # Inimigo aparece fora da tela
 inimigo1.setx(inicio_inimigo1X)            # Inimigo aparece em lugar aleatorio no eixo X
-
+inimigo1.shape("sprite-bowser-1.gif")
 
 # Inimigo2
 inicio_inimigo2Y = y2                       # Inimigo2 coordenada fora da tela
 inicio_inimigo2X = x2                       # Inimigo 2coordenada gerada em lugar aleatorio no eixo X
 inimigo2 = turtle.Turtle()
-inimigo2.shape("sprite-luigi-1.gif")
 inimigo2.penup()
 inimigo2.speed(0)                           # Velocidade = 0 para teleportar sem ser visto
 inimigo2.sety(inicio_inimigo2Y)             # Inimigo2 aparece fora da tela
 inimigo2.setx(inicio_inimigo2X)             # Inimigo2 aparece em lugar aleatorio no eixo X
+inimigo2.shape("sprite-luigi-1.gif")
 
+# Jogador
+inicio_jogador = -270                    # Posição do Sprite
+jogador = turtle.Turtle()
+jogador.speed(0)                         # Velocidade = 0 para teleportar sem ser visto
+jogador.penup()
+jogador.sety(inicio_jogador)
+jogador.shape("sprite-mario-1.gif")
 
 # Função Iniciar o jogo
 def start():                                # Quando a função for chamada dará as velocidades iniciando o jogo
@@ -265,7 +260,7 @@ while True:
     dgi1 = math.sqrt((cogumelo.xcor() - inimigo1.xcor()) ** 2 + (cogumelo.ycor() - inimigo1.ycor()) ** 2)# Colisao cogumelo com inimigo1,nao nascem juntos
     dgi2 = math.sqrt((cogumelo.xcor() - inimigo2.xcor()) ** 2 + (cogumelo.ycor() - inimigo2.ycor()) ** 2)# Colisao cogumelo com inimigo2,nao nascem juntos
 
-    distancia = 130           # O quanto cada objeto deve obedecer a esta distância
+    distancia = 138           # O quanto cada objeto deve obedecer a esta distância
     if di1 <= distancia:      # Colisão jogador e inimigo1
         colisao()
     if di2 <= distancia:      # Colisão jogador e inimigo2
