@@ -11,6 +11,7 @@ tela.addshape("background-grande.gif")   # fundo animado
 tela.addshape("sprite-mario-1.gif")      # Sprite jogador
 tela.addshape("sprite-bowser-1.gif")     # Sprite inimigo 1
 tela.addshape("sprite-luigi-1.gif")      # Sprite inimigo 2
+tela.addshape("cogumelo.gif")            # Sprite cogumelo
 tela.addshape("Combustivel-cheio.gif")   # Sprites Combustivel
 tela.addshape("Combustivel-meio.gif")    # -
 tela.addshape("Combustivel-baixo.gif")   # -
@@ -57,11 +58,24 @@ jogador.sety(inicio_jogador)
 
 
 #Variaveis de random
-x1 = random.randint(-230, 100)            # Aleatoriedade do X inimigo 1
-x2 = random.randint(-100, 250)            # Aleatoriedade do X inimigo 2
+xg = random.randint(-230, 230)            # Aleatoriedade do X cogumelo
+yg = random.randint(2000,2400)            # Aleatoriedade do Y cogumelo
+x1 = random.randint(-230, 200)            # Aleatoriedade do X inimigo 1
+x2 = random.randint(-100, 210)            # Aleatoriedade do X inimigo 2
 y1 = random.randint(700,1000)             # Aleatoriedade do Y inimigo 1
 y2 = random.randint(500,800)              # Aleatoriedade do Y inimigo 2
-# Inimigo
+
+# Cogumelo
+inicio_coguY = yg                     # Cogumelo coordenada fora da tela
+inicio_coguX = xg                     # Cogumelo coordenada gerada em lugar aleatorio no eixo X
+cogumelo = turtle.Turtle()
+cogumelo.shape("cogumelo.gif")
+cogumelo.penup()
+cogumelo.speed(0)                          # Velocidade = 0 para teleportar sem ser visto
+cogumelo.sety(inicio_coguY)            # Cogumelo aparece fora da tela
+cogumelo.setx(inicio_coguX)            # Cogumelo aparece em lugar aleatorio no eixo X
+
+# Inimigo1
 inicio_inimigo1Y = y1                     # Inimigo coordenada fora da tela
 inicio_inimigo1X = x1                     # Inimigo coordenada gerada em lugar aleatorio no eixo X
 inimigo1 = turtle.Turtle()
@@ -92,17 +106,23 @@ def start():                                #Quando a função for chamada dará
     return veloFundo, andar
 
 def colisao():
-    global combustivel_valor
+    global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y
     combustivel_valor -= 50         # Colisão com inimigo perde 50 de combustivel
+    inicio_inimigo1X = random.randint(-230, 200)  #Sorteia de novo a posição
+    inicio_inimigo1Y = random.randint(700,1000)   #Sorteia de novo a posição
+    inicio_inimigo2X = random.randint(-100, 210)  #Sorteia de novo a posição
+    inicio_inimigo2Y = random.randint(500,800)    #Sorteia de novo a posição
     inimigo1.speed(10)              # Speed para animação suave do inimigo voltando quando colidir
     inimigo2.speed(10)              # Speed para animação suave do inimigo voltando quando colidir
     fundo.speed(5)                  # Speed para animação suave do inimigo voltando quando colidir
     fundo.sety(-comeco)             # Fundo volta na colisão (impressão que o carro voltou)
     fundo.speed(0)                  # Speed 0 para sincronizar com a animação padrão do fundo
+    cogumelo.sety(inicio_coguY)     # Teleportes dos cogumelo quando houver colisão
+    cogumelo.setx(inicio_coguX)     # -
     inimigo1.sety(inicio_inimigo1Y) # Teleportes dos inimigos quando houver colisão
-    inimigo1.setx(inicio_inimigo1X) #-
-    inimigo2.sety(inicio_inimigo2Y) #-
-    inimigo2.setx(inicio_inimigo2X) #-
+    inimigo1.setx(inicio_inimigo1X) # -
+    inimigo2.sety(inicio_inimigo2Y) # -
+    inimigo2.setx(inicio_inimigo2X) # -
     inimigo1.speed(0)               # Speed 0 para sincronizar com a animação padrão
     inimigo2.speed(0)               # Speed 0 para sincronizar com a animação padrão
     time.sleep(0.5)                 # Jogo congela 0.5s para ocorrer essa função
@@ -120,8 +140,12 @@ def esquerda():
 
 # Adicionar Combustivel
 def addGas():
-    global combustivel_valor
+    global combustivel_valor, inicio_coguX, inicio_coguY
     combustivel_valor = 300
+    inicio_coguX = random.randint(-230, 230) # Quando colidir e adicionar o combustivel sorteia de novo o eixo X
+    inicio_coguY = random.randint(2000,2300) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
+    cogumelo.sety(inicio_coguY)  # Teleportes dos cogumelo quando houver colisão
+    cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
 
 
@@ -165,34 +189,59 @@ while True:
     # Movimento inimigo2
     inimigo2.goto(inicio_inimigo2X, inimigo2.ycor() - veloInimigo)  # Regra de movimento
     if inimigo2.ycor() < comeco:                                    # Se sair do limite da tela volta para cima com um novo valor de X
-        inicio_inimigo2X = random.randint(-100, 250)                # Tira aleatoriedade X de novo quando sair da tela
+        inicio_inimigo2X = random.randint(-100, 210)                # Tira aleatoriedade X de novo quando sair da tela
         inimigo2.speed(0)
         inimigo2.sety(inicio_inimigo2Y)
         inimigo2.setx(inicio_inimigo2X)
+
+    # Movimento cogumelo
+    cogumelo.goto(inicio_coguX, cogumelo.ycor() - veloInimigo)  # Regra de movimento
+    if cogumelo.ycor() < comeco:  # Se sair do limite da tela volta para cima com um novo valor de X
+        inicio_coguX = random.randint(-100, 250)  # Tira aleatoriedade X de novo quando sair da tela
+        cogumelo.speed(0)
+        cogumelo.sety(inicio_coguY)
+        cogumelo.setx(inicio_coguX)
 
 
     #Colisão
     di1 = math.sqrt((jogador.xcor() - inimigo1.xcor())**2 + (jogador.ycor() - inimigo1.ycor())**2)       # Colisao com inimigo1
     di2 = math.sqrt((jogador.xcor() - inimigo2.xcor()) ** 2 + (jogador.ycor() - inimigo2.ycor()) ** 2)   # Colisao com inimigo2
+    dg = math.sqrt((jogador.xcor() - cogumelo.xcor()) ** 2 + (jogador.ycor() - cogumelo.ycor()) ** 2)    # Colisao com Cogumelo
     dii = math.sqrt((inimigo2.xcor() - inimigo1.xcor()) ** 2 + (inimigo2.ycor() - inimigo1.ycor()) ** 2) # Colisao inimigo com inimigo,nao nascem juntos
-    if di1 <= 95:
+    dgi1 = math.sqrt((cogumelo.xcor() - inimigo1.xcor()) ** 2 + (cogumelo.ycor() - inimigo1.ycor()) ** 2)# Colisao cogumelo com inimigo1,nao nascem juntos
+    dgi2 = math.sqrt((cogumelo.xcor() - inimigo2.xcor()) ** 2 + (cogumelo.ycor() - inimigo2.ycor()) ** 2)# Colisao cogumelo com inimigo2,nao nascem juntos
+
+    distancia = 130 # O quanto cada objeto deve obedecer a esta distância
+    if di1 <= distancia:
         colisao()
-    if di2 <= 95:
+    if di2 <= distancia:
         colisao()
-    if dii <= 200:
+    if dg <= distancia:
+        addGas()
+    if dii <= distancia:
         inicio_inimigo2X = x2
         inicio_inimigo2Y = y2
         inimigo2.sety(inicio_inimigo1Y)
         inimigo2.setx(inicio_inimigo1X)
+    if dgi1 <= distancia:
+        inicio_coguX = xg
+        inicio_coguY = yg
+        cogumelo.sety(inicio_coguY)
+        cogumelo.setx(inicio_coguX)
+    if dgi2 <= 80:
+        inicio_coguX = xg
+        inicio_coguY = yg
+        cogumelo.sety(inicio_coguY)
+        cogumelo.setx(inicio_coguX)
 
     #Regra se o combustivel acabar
     if combustivel_valor < 1000 and combustivel_valor >=300 :      # Combustivel muda de sprite
         combustivel.shape("Combustivel-cheio.gif")
         combustivel_valor = 290 # Quando entra na condição o jogo fica lento, isso resolve o problema, pois em seguida ele sai da condição
 
-    if combustivel_valor <= 250 and combustivel_valor >= 220:      # Combustivel muda de sprite
+    if combustivel_valor <= 220 and combustivel_valor >= 190:      # Combustivel muda de sprite
         combustivel.shape("Combustivel-meio.gif")
-        combustivel_valor = 210                                    # Resolve problema da condição
+        combustivel_valor = 180                                    # Resolve problema da condição
 
     if combustivel_valor <= 150 and combustivel_valor >=90:        # Combustivel muda de sprite
         combustivel.shape("Combustivel-baixo.gif")
