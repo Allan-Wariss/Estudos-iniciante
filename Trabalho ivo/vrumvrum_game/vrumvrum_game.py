@@ -74,9 +74,9 @@ pontos.color("white")    # Cor dos Pontos
 
 #Variaveis de random
 xg = random.randint(-230, 230)            # Aleatoriedade do X cogumelo
-yg = random.randint(1800,2000)            # Aleatoriedade do Y cogumelo
-x1 = random.randint(-230, 200)            # Aleatoriedade do X inimigo 1
-x2 = random.randint(-100, 210)            # Aleatoriedade do X inimigo 2
+yg = random.randint(1400,2000)            # Aleatoriedade do Y cogumelo
+x1 = random.randint(-200, 200)            # Aleatoriedade do X inimigo 1
+x2 = random.randint(-100, 200)            # Aleatoriedade do X inimigo 2
 y1 = random.randint(700,1000)             # Aleatoriedade do Y inimigo 1
 y2 = random.randint(500,800)              # Aleatoriedade do Y inimigo 2
 
@@ -124,7 +124,7 @@ def start():                                # Quando a função for chamada dar�
     global veloFundo, andar, veloInimigo
     veloFundo = 80
     veloInimigo = 20
-    andar = 20
+    andar = 30
     return veloFundo, andar
 
 def colisao():
@@ -175,7 +175,7 @@ def colisao():
     inimigo2.setx(inicio_inimigo2X) # -
     inimigo1.speed(0)               # Speed 0 para sincronizar com a animação padrão
     inimigo2.speed(0)               # Speed 0 para sincronizar com a animação padrão
-    andar = 20                      # Jogador volta a andar
+    andar = 30                      # Jogador volta a andar
 
 # Funções jogador
 def direita():
@@ -193,7 +193,7 @@ def addGas():
     global combustivel_valor, inicio_coguX, inicio_coguY
     combustivel_valor = 300
     inicio_coguX = random.randint(-230, 230) # Quando colidir e adicionar o combustivel sorteia de novo o eixo X
-    inicio_coguY = random.randint(1800,2000) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
+    inicio_coguY = random.randint(1400,1700) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
     cogumelo.sety(inicio_coguY)  # Teleportes dos cogumelo quando houver colisão
     cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
@@ -218,7 +218,7 @@ while True:
         pontos.clear()                          # Apaga desenho dos pontos anteriores, para não ficar sobreposto
         pontos.write(f"Pontos: {pontos_valor} ", False, font=('Arial', 30, 'normal')) # Desenha os pontos na tela
 
-    if jogador.xcor() < -220:       # Colidir na calçada da Esquerda perde Gasolina
+    if jogador.xcor() < -225:       # Colidir na calçada da Esquerda perde Gasolina
         colisao()
         jogador.speed(10)
         jogador.setx(0)
@@ -232,7 +232,7 @@ while True:
     #Movimento inimigo1
     inimigo1.goto(inicio_inimigo1X, inimigo1.ycor() - veloInimigo) # Regra de movimento
     if inimigo1.ycor() < comeco:                                   # Se sair do limite da tela volta para cima com um novo valor de X
-        inicio_inimigo1X = random.randint(-230, 100)               # Tira aleatoriedade X de novo quando sair da tela
+        inicio_inimigo1X = random.randint(-200, 100)               # Tira aleatoriedade X de novo quando sair da tela
         inimigo1.speed(0)
         inimigo1.sety(inicio_inimigo1Y)
         inimigo1.setx(inicio_inimigo1X)
@@ -240,7 +240,7 @@ while True:
     # Movimento inimigo2
     inimigo2.goto(inicio_inimigo2X, inimigo2.ycor() - veloInimigo)  # Regra de movimento
     if inimigo2.ycor() < comeco:                                    # Se sair do limite da tela volta para cima com um novo valor de X
-        inicio_inimigo2X = random.randint(-100, 210)                # Tira aleatoriedade X de novo quando sair da tela
+        inicio_inimigo2X = random.randint(-100, 200)                # Tira aleatoriedade X de novo quando sair da tela
         inimigo2.speed(0)
         inimigo2.sety(inicio_inimigo2Y)
         inimigo2.setx(inicio_inimigo2X)
