@@ -74,7 +74,7 @@ pontos.color("white")    # Cor dos Pontos
 
 #Variaveis de random
 xg = random.randint(-230, 230)            # Aleatoriedade do X cogumelo
-yg = random.randint(1400,2000)            # Aleatoriedade do Y cogumelo
+yg = random.randint(1600,2000)            # Aleatoriedade do Y cogumelo
 x1 = random.randint(-200, 200)            # Aleatoriedade do X inimigo 1
 x2 = random.randint(-100, 200)            # Aleatoriedade do X inimigo 2
 y1 = random.randint(700,1000)             # Aleatoriedade do Y inimigo 1
@@ -125,7 +125,6 @@ def start():                                # Quando a função for chamada dar�
     veloFundo = 80
     veloInimigo = 20
     andar = 30
-    return veloFundo, andar
 
 def colisao():
     global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar
@@ -193,7 +192,7 @@ def addGas():
     global combustivel_valor, inicio_coguX, inicio_coguY
     combustivel_valor = 300
     inicio_coguX = random.randint(-230, 230) # Quando colidir e adicionar o combustivel sorteia de novo o eixo X
-    inicio_coguY = random.randint(1400,1700) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
+    inicio_coguY = random.randint(1700,1900) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
     cogumelo.sety(inicio_coguY)  # Teleportes dos cogumelo quando houver colisão
     cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
@@ -272,8 +271,8 @@ while True:
     if dii <= distancia + 20: # Colisão entre inimigos, evitar que nasçam em cima do outro
         inicio_inimigo2X = x2
         inicio_inimigo2Y = y2
-        inimigo2.sety(inicio_inimigo1Y)
-        inimigo2.setx(inicio_inimigo1X)
+        inimigo2.sety(inicio_inimigo2Y)
+        inimigo2.setx(inicio_inimigo2X)
     if dgi1 <= distancia:    # Colisão entre cogumelo e inimigo1, evitar que nasçam em cima do outro
         inicio_coguX = xg
         inicio_coguY = yg
