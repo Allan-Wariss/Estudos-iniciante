@@ -195,7 +195,7 @@ def addGas():
     global combustivel_valor, inicio_coguX, inicio_coguY
     combustivel_valor = 300
     inicio_coguX = random.randint(-230, 230) # Quando colidir e adicionar o combustivel sorteia de novo o eixo X
-    inicio_coguY = random.randint(2000,2200) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
+    inicio_coguY = random.randint(1800,2000) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
     cogumelo.sety(inicio_coguY)  # Teleportes dos cogumelo quando houver colisão
     cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
@@ -260,7 +260,7 @@ while True:
     dgi1 = math.sqrt((cogumelo.xcor() - inimigo1.xcor()) ** 2 + (cogumelo.ycor() - inimigo1.ycor()) ** 2)# Colisao cogumelo com inimigo1,nao nascem juntos
     dgi2 = math.sqrt((cogumelo.xcor() - inimigo2.xcor()) ** 2 + (cogumelo.ycor() - inimigo2.ycor()) ** 2)# Colisao cogumelo com inimigo2,nao nascem juntos
 
-    distancia = 138           # O quanto cada objeto deve obedecer a esta distância
+    distancia = 130           # O quanto cada objeto deve obedecer a esta distância
     if di1 <= distancia:      # Colisão jogador e inimigo1
         colisao()
     if di2 <= distancia:      # Colisão jogador e inimigo2
