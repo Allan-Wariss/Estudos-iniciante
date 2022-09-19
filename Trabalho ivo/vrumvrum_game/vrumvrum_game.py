@@ -124,7 +124,7 @@ def start():                                # Quando a função for chamada dar�
     global veloFundo, andar, veloInimigo
     veloFundo = 80
     veloInimigo = 20
-    andar = 30
+    andar = 20
     return veloFundo, andar
 
 def colisao():
@@ -132,10 +132,8 @@ def colisao():
     andar = 0                           # Jogador não ande durante a colisão
     combustivel_valor -= 50             # Colisão com inimigo perde 50 de combustivel
     #Animação da colisão
-    jogador.shape("sprite-mario-1.gif") # Sprite que mudará
+    jogador.shape("sprite-mario-2.gif") # Sprite que mudará
     time.sleep(0.01)                    # Tempo que de um sprite para o outro
-    jogador.shape("sprite-mario-2.gif")
-    time.sleep(0.01)
     jogador.shape("sprite-mario-3.gif")
     time.sleep(0.01)
     jogador.shape("sprite-mario-4.gif")
@@ -177,7 +175,7 @@ def colisao():
     inimigo2.setx(inicio_inimigo2X) # -
     inimigo1.speed(0)               # Speed 0 para sincronizar com a animação padrão
     inimigo2.speed(0)               # Speed 0 para sincronizar com a animação padrão
-    andar = 30                      # Jogador volta a andar
+    andar = 20                      # Jogador volta a andar
 
 # Funções jogador
 def direita():
@@ -220,12 +218,16 @@ while True:
         pontos.clear()                          # Apaga desenho dos pontos anteriores, para não ficar sobreposto
         pontos.write(f"Pontos: {pontos_valor} ", False, font=('Arial', 30, 'normal')) # Desenha os pontos na tela
 
-        if jogador.xcor() < -259:       # Colidir na calçada da Esquerda perde Gasolina
-            time.sleep(0.01)
-            combustivel_valor -= 30
-        if jogador.xcor() > 239:        # Colidir na calçada da Direita perde Gasolina
-            time.sleep(0.01)
-            combustivel_valor -= 30
+    if jogador.xcor() < -220:       # Colidir na calçada da Esquerda perde Gasolina
+        colisao()
+        jogador.speed(10)
+        jogador.setx(0)
+        jogador.speed(0)
+    if jogador.xcor() > 210:        # Colidir na calçada da Direita perde Gasolina
+        colisao()
+        jogador.speed(10)
+        jogador.setx(0)
+        jogador.speed(0)
 
     #Movimento inimigo1
     inimigo1.goto(inicio_inimigo1X, inimigo1.ycor() - veloInimigo) # Regra de movimento
