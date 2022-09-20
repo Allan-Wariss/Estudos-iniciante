@@ -2,6 +2,7 @@ import turtle
 import time
 import random
 import math
+import winsound
 
 tela = turtle.Screen()                   # Faz a tela do jogo
 tela.title("Vrum Vrum THE GAME")         # Titulo da janela
@@ -81,11 +82,11 @@ y1 = random.randint(700,1000)             # Aleatoriedade do Y inimigo 1
 y2 = random.randint(500,800)              # Aleatoriedade do Y inimigo 2
 
 # Cogumelo
-inicio_coguY = yg                     # Cogumelo coordenada fora da tela
-inicio_coguX = xg                     # Cogumelo coordenada gerada em lugar aleatorio no eixo X
+inicio_coguY = yg                      # Cogumelo coordenada fora da tela
+inicio_coguX = xg                      # Cogumelo coordenada gerada em lugar aleatorio no eixo X
 cogumelo = turtle.Turtle()
 cogumelo.penup()
-cogumelo.speed(0)                          # Velocidade = 0 para teleportar sem ser visto
+cogumelo.speed(0)                      # Velocidade = 0 para teleportar sem ser visto
 cogumelo.sety(inicio_coguY)            # Cogumelo aparece fora da tela
 cogumelo.setx(inicio_coguX)            # Cogumelo aparece em lugar aleatorio no eixo X
 cogumelo.shape("cogumelo.gif")
@@ -118,13 +119,30 @@ jogador.penup()
 jogador.sety(inicio_jogador)
 jogador.shape("sprite-mario-1.gif")
 
+#winsound.PlaySound('som_game.wav', winsound.SND_FILENAME)
 # Função Iniciar o jogo
-def start():                                # Quando a função for chamada dará as velocidades iniciando o jogo
+def start():                                # Quando chamada iniciará ou reiniciará o jogo
     mensagem.clear()                        # Quando o jogo iniciar a mensagem é apagada
-    global veloFundo, andar, veloInimigo
-    veloFundo = 80
-    veloInimigo = 20
-    andar = 30
+    perdeu.clear()                          # Caso a função seja usada para reiniciar, apaga a mensagem de fim de jogo
+    global veloFundo, andar, veloInimigo, pontos_valor, combustivel_valor # Pega as globais
+    pontos_valor = 0         # Pontos inicia ou reinicia para
+    combustivel_valor = 300  # Combustivel fica = 300
+    veloFundo = 80           # velocidade do fundo fica = 80
+    veloInimigo = 20         # velocidade dos inimigos fica = 20
+    andar = 30               # velocidade do jogador = 30
+    pontos.clear()           # pontos apaga para ser desenhado de novo
+    pontos.write(f"Pontos: {pontos_valor} ", False, font=('Arial', 30, 'normal'))  # Desenha os pontos na tela
+    cogumelo.sety(inicio_coguY)     # Reinicia a posição de todos
+    cogumelo.setx(inicio_coguX)     # -
+    inimigo1.sety(inicio_inimigo1Y) # -
+    inimigo1.setx(inicio_inimigo1X) # -
+    inimigo2.sety(inicio_inimigo2Y) # -
+    inimigo2.setx(inicio_inimigo2X) # -
+    jogador.setx(0)                 # -
+    fundo.sety(-comeco)             # -
+    perdeu.clear() # Caso a função seja usada para reiniciar, apaga a mensagem de fim de jogo
+
+
 
 def colisao():
     global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar
@@ -299,9 +317,10 @@ while True:
 
     if combustivel_valor <= 0:                                     # Combustivel zerado o Jogo para
         combustivel.shape("Combustivel-zero.gif")
-        veloFundo = 0
-        andar = 0
-        veloInimigo = 0
-        perdeu.write("Gasolina ACABOU ;-; ", False, align="center", font=('impact', 50, 'normal'))
+        perdeu.write("         Gasolina ACABOU ;-; \n Reinicie o jogo no ESPAÇO ", False, align="center", font=('impact', 50, 'normal'))
+        veloFundo = 0                   # Combustivel acabar o fundo para
+        andar = 0                       # Combustivel acabar o jogador para
+        veloInimigo = 0                 # Combustivel acabar os inimigos param
+        combustivel_valor = 2000        # Desbuga a função start() quando usada para reiniciar quando o combustivel adiquirir valor negativo
 
 tela.mainloop()
