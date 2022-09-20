@@ -30,6 +30,7 @@ tela.addshape("Combustivel-meio.gif")    # -
 tela.addshape("Combustivel-baixo.gif")   # -
 tela.addshape("Combustivel-zero.gif")    # -
 
+
 #Velocidades
 veloFundo = 0
 veloInimigo = 0
@@ -119,9 +120,10 @@ jogador.penup()
 jogador.sety(inicio_jogador)
 jogador.shape("sprite-mario-1.gif")
 
-#winsound.PlaySound('som_game.wav', winsound.SND_FILENAME)
+
 # Função Iniciar o jogo
 def start():                                # Quando chamada iniciará ou reiniciará o jogo
+    winsound.PlaySound('potencia.wav', winsound.SND_ASYNC)
     mensagem.clear()                        # Quando o jogo iniciar a mensagem é apagada
     perdeu.clear()                          # Caso a função seja usada para reiniciar, apaga a mensagem de fim de jogo
     global veloFundo, andar, veloInimigo, pontos_valor, combustivel_valor # Pega as globais
@@ -148,6 +150,7 @@ def colisao():
     global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar
     andar = 0                           # Jogador não ande durante a colisão
     combustivel_valor -= 50             # Colisão com inimigo perde 50 de combustivel
+    winsound.PlaySound('MAMAMIA.wav', winsound.SND_ASYNC) # Som de colisão
     #Animação da colisão
     jogador.shape("sprite-mario-2.gif") # Sprite que mudará
     time.sleep(0.01)                    # Tempo que de um sprite para o outro
@@ -215,7 +218,6 @@ def addGas():
     cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
 
-
 # Mover Jogador
 tela.onkey(direita, "Right")
 tela.onkey(esquerda, "Left")
@@ -245,7 +247,6 @@ while True:
         jogador.speed(10)
         jogador.setx(0)
         jogador.speed(0)
-
     #Movimento inimigo1
     inimigo1.goto(inicio_inimigo1X, inimigo1.ycor() - veloInimigo) # Regra de movimento
     if inimigo1.ycor() < comeco:                                   # Se sair do limite da tela volta para cima com um novo valor de X
@@ -286,6 +287,7 @@ while True:
         colisao()
     if dg <= distancia:       # Colisão jogador e Cogumelo
         addGas()
+        winsound.PlaySound('I-GOT.wav', winsound.SND_ASYNC)
     if dii <= distancia + 20: # Colisão entre inimigos, evitar que nasçam em cima do outro
         inicio_inimigo2X = x2
         inicio_inimigo2Y = y2
@@ -317,6 +319,7 @@ while True:
 
     if combustivel_valor <= 0:                                     # Combustivel zerado o Jogo para
         combustivel.shape("Combustivel-zero.gif")
+        winsound.PlaySound('gameover.wav', winsound.SND_ASYNC)
         perdeu.write("         Gasolina ACABOU ;-; \n Reinicie o jogo no ESPAÇO ", False, align="center", font=('impact', 50, 'normal'))
         veloFundo = 0                   # Combustivel acabar o fundo para
         andar = 0                       # Combustivel acabar o jogador para
