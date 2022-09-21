@@ -76,7 +76,7 @@ pontos.color("white")    # Cor dos Pontos
 
 #Variaveis de random
 xg = random.randint(-230, 230)            # Aleatoriedade do X cogumelo
-yg = random.randint(1600,2000)            # Aleatoriedade do Y cogumelo
+yg = random.randint(1600,1800)            # Aleatoriedade do Y cogumelo
 x1 = random.randint(-200, 200)            # Aleatoriedade do X inimigo 1
 x2 = random.randint(-100, 200)            # Aleatoriedade do X inimigo 2
 y1 = random.randint(700,1000)             # Aleatoriedade do Y inimigo 1
@@ -120,6 +120,7 @@ jogador.penup()
 jogador.sety(inicio_jogador)
 jogador.shape("sprite-mario-1.gif")
 
+winsound.PlaySound('som-game.wav', winsound.SND_ASYNC)
 
 # Função Iniciar o jogo
 def start():                                # Quando chamada iniciará ou reiniciará o jogo
@@ -213,7 +214,7 @@ def addGas():
     global combustivel_valor, inicio_coguX, inicio_coguY
     combustivel_valor = 300
     inicio_coguX = random.randint(-230, 230) # Quando colidir e adicionar o combustivel sorteia de novo o eixo X
-    inicio_coguY = random.randint(1700,1900) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
+    inicio_coguY = random.randint(1500, 1800) # Quando colidir e adicionar o combustivel sorteia de novo o eixo Y
     cogumelo.sety(inicio_coguY)  # Teleportes dos cogumelo quando houver colisão
     cogumelo.setx(inicio_coguX)  # -
     return combustivel_valor
@@ -270,7 +271,6 @@ while True:
         cogumelo.speed(0)
         cogumelo.sety(inicio_coguY)
         cogumelo.setx(inicio_coguX)
-
 
     #Colisão
     di1 = math.sqrt((jogador.xcor() - inimigo1.xcor())**2 + (jogador.ycor() - inimigo1.ycor())**2)       # Colisao com inimigo1
