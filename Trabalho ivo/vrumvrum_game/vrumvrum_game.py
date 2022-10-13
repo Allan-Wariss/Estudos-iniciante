@@ -34,6 +34,7 @@ tela.addshape("Combustivel-zero.gif")    # -
 #Velocidades
 veloFundo = 0
 veloInimigo = 0
+veloCogu = 0
 andar = 0
 
 # Configuração fundo
@@ -57,6 +58,13 @@ mensagem.hideturtle()
 mensagem.color("white")
 mensagem.up()
 mensagem.write("APERTE ESPAÇO PARA INICIAR ", False,align="center", font=('impact', 50, 'normal'))
+
+#Mensagem2 (Aperte Espaço para continuar)
+mensagem2 = turtle.Turtle()                # Mensagem para continuar
+mensagem2.hideturtle()
+mensagem2.color("yellow")
+mensagem2.up()
+
 
 # Mensagem de fim de jogo
 perdeu = turtle.Turtle()  # Mensagem para indicar fim de jogo
@@ -124,14 +132,18 @@ winsound.PlaySound('som-game.wav', winsound.SND_ASYNC)
 
 # Função Iniciar o jogo
 def start():                                # Quando chamada iniciará ou reiniciará o jogo
-    winsound.PlaySound('potencia.wav', winsound.SND_ASYNC)
+    global veloFundo, andar, veloInimigo, combustivel_valor, pontos_valor, veloCogu # Pega as globais
+    if combustivel_valor > 280:             # Intençao de tocar o som só quando iniciar nas primeiras vezes, evitar flood de som ao apertar Espaço
+        winsound.PlaySound('potencia.wav', winsound.SND_ASYNC)
+    fundo.speed(0)                          # Speed 0 para sincronizar com a animação padrão do fundo
+    inimigo1.speed(0)                       # Speed 0 para sincronizar com a animação padrão
+    inimigo2.speed(0)                       # Speed 0 para sincronizar com a animação padrão
+    mensagem2.clear()                       # Apaga mensagem de continuar
     mensagem.clear()                        # Quando o jogo iniciar a mensagem é apagada
     perdeu.clear()                          # Caso a função seja usada para reiniciar, apaga a mensagem de fim de jogo
-    global veloFundo, andar, veloInimigo, pontos_valor, combustivel_valor # Pega as globais
-    pontos_valor = 0         # Pontos inicia ou reinicia para
-    combustivel_valor = 300  # Combustivel fica = 300
     veloFundo = 80           # velocidade do fundo fica = 80
     veloInimigo = 20         # velocidade dos inimigos fica = 20
+    veloCogu = 10
     andar = 30               # velocidade do jogador = 30
     pontos.clear()           # pontos apaga para ser desenhado de novo
     pontos.write(f"Pontos: {pontos_valor} ", False, font=('Arial', 30, 'normal'))  # Desenha os pontos na tela
@@ -145,11 +157,28 @@ def start():                                # Quando chamada iniciará ou reinic
     fundo.sety(-comeco)             # -
     perdeu.clear() # Caso a função seja usada para reiniciar, apaga a mensagem de fim de jogo
 
-
+    if combustivel_valor == 1:      # Caso o combustivel acabe, com o ESPAÇO o jogo reinicia do ZERO
+        pontos_valor = 0
+        combustivel_valor = 300
+        pontos.clear()
+        winsound.PlaySound('potencia.wav', winsound.SND_ASYNC)
+def restart():                      # Reiniciar a força com a Telca R
+    global pontos_valor, combustivel_valor
+    winsound.PlaySound('potencia.wav', winsound.SND_ASYNC)
+    combustivel_valor = 300  #Combustivel volta a ter 300
+    mensagem2.clear()
+    start()
+    pontos_valor = 0  # Pontos inicia ou reinicia para
+    pontos.clear()  # pontos apaga para ser desenhado de novo
+    pontos.write(f"Pontos: {pontos_valor} ", False, font=('Arial', 30, 'normal'))  # Desenha os pontos na tela
 
 def colisao():
-    global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar
-    andar = 0                           # Jogador não ande durante a colisão
+    global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar, veloCogu, veloInimigo, veloFundo
+    mensagem2.write("APERTE ESPAÇO PARA CONTINUAR ", False, align="center", font=('impact', 50, 'normal'))
+    veloFundo = 0
+    veloInimigo = 0
+    veloCogu = 0
+    andar = 0
     combustivel_valor -= 50             # Colisão com inimigo perde 50 de combustivel
     winsound.PlaySound('MAMAMIA.wav', winsound.SND_ASYNC) # Som de colisão
     #Animação da colisão
@@ -187,16 +216,16 @@ def colisao():
     inimigo2.speed(10)              # Speed para animação suave do inimigo voltando quando colidir
     fundo.speed(5)                  # Speed para animação suave do inimigo voltando quando colidir
     fundo.sety(-comeco)             # Fundo volta na colisão (impressão que o carro voltou)
-    fundo.speed(0)                  # Speed 0 para sincronizar com a animação padrão do fundo
     cogumelo.sety(inicio_coguY)     # Teleportes dos cogumelo quando houver colisão
     cogumelo.setx(inicio_coguX)     # -
     inimigo1.sety(inicio_inimigo1Y) # Teleportes dos inimigos quando houver colisão
     inimigo1.setx(inicio_inimigo1X) # -
     inimigo2.sety(inicio_inimigo2Y) # -
     inimigo2.setx(inicio_inimigo2X) # -
+    fundo.speed(0)                  # Speed 0 para sincronizar com a animação padrão do fundo
     inimigo1.speed(0)               # Speed 0 para sincronizar com a animação padrão
     inimigo2.speed(0)               # Speed 0 para sincronizar com a animação padrão
-    andar = 30                      # Jogador volta a andar
+
 
 # Funções jogador
 def direita():
@@ -220,6 +249,7 @@ def addGas():
     return combustivel_valor
 
 # Mover Jogador
+tela.onkey(restart, "r")
 tela.onkey(direita, "Right")
 tela.onkey(esquerda, "Left")
 tela.onkey(start, "space")
@@ -305,7 +335,7 @@ while True:
         cogumelo.setx(inicio_coguX)
 
     #Regra se o combustivel acabar
-    if combustivel_valor < 1000 and combustivel_valor >=300 :      # Combustivel muda de sprite
+    if combustivel_valor < 10000 and combustivel_valor >=300 :      # Combustivel muda de sprite
         combustivel.shape("Combustivel-cheio.gif")
         combustivel_valor = 290 # Quando entra na condição o jogo fica lento, isso resolve o problema, pois em seguida ele sai da condição
 
@@ -320,10 +350,11 @@ while True:
     if combustivel_valor <= 0:                                     # Combustivel zerado o Jogo para
         combustivel.shape("Combustivel-zero.gif")
         winsound.PlaySound('gameover.wav', winsound.SND_ASYNC)
-        perdeu.write("         Gasolina ACABOU ;-; \n Reinicie o jogo no ESPAÇO ", False, align="center", font=('impact', 50, 'normal'))
+        perdeu.write("                Gasolina ACABOU ;-; \n Reinicie o jogo na tecla ESPAÇO ", False, align="center", font=('impact', 50, 'normal'))
+        mensagem2.clear()
         veloFundo = 0                   # Combustivel acabar o fundo para
         andar = 0                       # Combustivel acabar o jogador para
         veloInimigo = 0                 # Combustivel acabar os inimigos param
-        combustivel_valor = 2000        # Desbuga a função start() quando usada para reiniciar quando o combustivel adiquirir valor negativo
+        combustivel_valor = 1           # Desbuga a função start() quando usada para reiniciar quando o combustivel adiquirir valor negativo
 
 tela.mainloop()
