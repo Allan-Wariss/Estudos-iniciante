@@ -29,6 +29,7 @@ tela.addshape("Combustivel-cheio.gif")   # Sprites Combustivel
 tela.addshape("Combustivel-meio.gif")    # -
 tela.addshape("Combustivel-baixo.gif")   # -
 tela.addshape("Combustivel-zero.gif")    # -
+tela.tracer(0)
 
 
 #Velocidades
@@ -141,8 +142,8 @@ def start():                                # Quando chamada iniciará ou reinic
     mensagem2.clear()                       # Apaga mensagem de continuar
     mensagem.clear()                        # Quando o jogo iniciar a mensagem é apagada
     perdeu.clear()                          # Caso a função seja usada para reiniciar, apaga a mensagem de fim de jogo
-    veloFundo = 80           # velocidade do fundo fica = 80
-    veloInimigo = 20         # velocidade dos inimigos fica = 20
+    veloFundo = 40           # velocidade do fundo fica = 80
+    veloInimigo = 10         # velocidade dos inimigos fica = 20
     veloCogu = 10
     andar = 30               # velocidade do jogador = 30
     pontos.clear()           # pontos apaga para ser desenhado de novo
@@ -174,6 +175,7 @@ def restart():                      # Reiniciar a força com a Telca R
 
 def colisao():
     global combustivel_valor, inicio_inimigo1X, inicio_inimigo1Y, inicio_inimigo2X, inicio_inimigo2Y, andar, veloCogu, veloInimigo, veloFundo
+    tela.tracer(1)
     mensagem2.write("APERTE ESPAÇO PARA CONTINUAR ", False, align="center", font=('impact', 50, 'normal'))
     veloFundo = 0
     veloInimigo = 0
@@ -225,7 +227,7 @@ def colisao():
     fundo.speed(0)                  # Speed 0 para sincronizar com a animação padrão do fundo
     inimigo1.speed(0)               # Speed 0 para sincronizar com a animação padrão
     inimigo2.speed(0)               # Speed 0 para sincronizar com a animação padrão
-
+    tela.tracer(0)
 
 # Funções jogador
 def direita():
@@ -250,13 +252,14 @@ def addGas():
 
 # Mover Jogador
 tela.onkey(restart, "r")
-tela.onkey(direita, "Right")
-tela.onkey(esquerda, "Left")
+tela.onkeypress(direita, "Right")
+tela.onkeypress(esquerda, "Left")
 tela.onkey(start, "space")
 tela.listen()
 
 #loop do jogo
-while True:
+def prinicipal():
+    global veloFundo,combustivel_valor,pontos_valor,inicio_inimigo1X, veloInimigo, inicio_inimigo2X, inicio_inimigo2Y, inicio_coguX, inicio_coguY, andar
     # Loop do fundo infinito em movimento e suas regras
     fundo.goto(0, fundo.ycor() - veloFundo)
     if fundo.ycor() < comeco:
@@ -356,5 +359,9 @@ while True:
         andar = 0                       # Combustivel acabar o jogador para
         veloInimigo = 0                 # Combustivel acabar os inimigos param
         combustivel_valor = 1           # Desbuga a função start() quando usada para reiniciar quando o combustivel adiquirir valor negativo
+
+    tela.update()
+    tela.ontimer(prinicipal, 1000//60)
+prinicipal()
 
 tela.mainloop()
